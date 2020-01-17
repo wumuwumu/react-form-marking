@@ -5,6 +5,27 @@ import {ReactSortable} from "react-sortablejs";
 import {basicComponents, layoutComponents, advanceComponents} from './componentsConfig.js'
 import WidgetForm from "./WidgetForm";
 export default class Comtainer extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      widgetForm: {
+        list: [
+          {
+            model:'textarea',
+            value:"12212",
+            options:{}
+          }
+        ],
+        config: {
+          labelWidth: 100,
+          labelPosition: 'right',
+          size: 'small'
+        },
+      },
+    }
+  }
+
+
   render() {
     return (
       <Row type="flex">
@@ -17,7 +38,8 @@ export default class Comtainer extends Component {
                            sort={false}
                            tag={"ul"}
                            animation={150}
-                           group={{name: "cloning-group-name", pull: "clone", put: false}}
+                           ghostClass={'ghost'}
+                           group={{name: "people", pull: "clone", put: false}}
                            clone={item => ({...item})}>
               {basicComponents.map((item, index) => (
                 <li className="form-edit-widget-label" key={index}>
@@ -37,7 +59,7 @@ export default class Comtainer extends Component {
                            sort={false}
                            tag={"ul"}
                            animation={150}
-                           group={{name: "cloning-group-name", pull: "clone", put: false}}
+                           group={{name: "person", pull: "clone", put: false}}
                            clone={item => ({...item})}>
               {layoutComponents.map((item, index) => (
                 <li className="form-edit-widget-label data-grid" key="index">
@@ -63,9 +85,10 @@ export default class Comtainer extends Component {
               {this.props.generateJson &&  <Button type="link" size={"small"}>生成JSON</Button>}
               {this.props.generateCode &&  <Button type="link" size={"small"}>生成JSON</Button>}
             </div>
-            <Row>
-              <WidgetForm></WidgetForm>
-            </Row>
+
+          </Row>
+          <Row>
+            <WidgetForm data={this.state.widgetForm}></WidgetForm>
           </Row>
         </Col>
         <Col span={6}>4</Col>

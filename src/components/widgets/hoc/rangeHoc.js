@@ -7,27 +7,25 @@ import React from 'react';
 import moment from 'moment';
 import { getFormat } from '../../../base/utils';
 
-export default (p, onChange, DateComponent) => {
-  const style = p.invalid ? { borderColor: '#f5222d' } : {};
+export default (p, onChange, RangeComponent) => {
   const { format = 'dateTime' } = p.schema;
   const dateFormat = getFormat(format);
   let defaultObj = {};
-  if (p.value) {
+  if (p.value && Array.isArray(p.value) && p.value[0] && p.value[1]) {
     defaultObj = {
-      value: moment(p.value, dateFormat),
+      defaultValue: [
+        moment(p.value[0], dateFormat),
+        moment(p.value[1], dateFormat),
+      ],
     };
   }
-
-  const placeholderObj = p.description ? { placeholder: p.description } : {};
-
-  const dateParams = {
-    ...placeholderObj,
+  const datePrams = {
     ...p.options,
     ...defaultObj,
-    style: { width: '100%', ...style },
+    style: { width: '100%' },
     showTime: format === 'dateTime',
     disabled: p.disabled || p.readonly,
     onChange,
   };
-  return <DateComponent {...dateParams} />;
+  return <RangeComponent {...datePrams} />;
 };
